@@ -10,6 +10,7 @@
 
 <style>
 
+/* ====== BASE ====== */
 *{
 margin:0;
 padding:0;
@@ -17,24 +18,262 @@ box-sizing:border-box;
 }
 
 body{
-background:linear-gradient(180deg,#f8f2e6,#efe3c0);
-font-family:Roboto,sans-serif;
+font-family:'Cinzel', serif;
+background: radial-gradient(circle at top, #2a2112, #0f0c08);
+color:#d6b25e;
 height:100vh;
 overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-color:#4b3a18;
+text-align:center;
 }
 
+/* ====== CONTAINER ====== */
 .container{
+max-width:900px;
+padding:20px;
+}
+
+/* ====== LOGO CAPITOLE ====== */
+.logo img{
+width:130px;
+height:auto;
+margin-bottom:15px;
+filter: drop-shadow(0 0 10px rgba(214,178,94,0.4));
+}
+
+/* ====== TITRE ====== */
+h1{
+font-size:3.5rem;
+letter-spacing:4px;
+}
+
+/* ====== SUBTITLE ====== */
+.subtitle{
+margin-top:10px;
+font-family:Roboto;
+opacity:0.8;
+margin-bottom:40px;
+}
+
+/* ====== COUNTDOWN ====== */
+#countdown{
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.time-box{
+background:rgba(255,255,255,0.05);
+padding:15px;
+min-width:100px;
+border:1px solid rgba(214,178,94,0.2);
+border-radius:10px;
+}
+
+.time{
+font-size:2rem;
+font-weight:bold;
+color:#f5d27a;
+}
+
+.label{
+font-size:0.7rem;
+opacity:0.7;
+}
+
+/* ====== GLITCH SCREEN ====== */
+#glitchScreen{
+position:fixed;
+inset:0;
+background:black;
+opacity:0;
+pointer-events:none;
+z-index:100;
+}
+
+#glitchScreen.active{
+opacity:1;
+animation:flash 1s;
+}
+
+@keyframes flash{
+0%{filter:contrast(1);}
+25%{filter:contrast(2) hue-rotate(40deg);}
+50%{filter:invert(1);}
+75%{filter:contrast(3);}
+100%{filter:none;}
+}
+
+/* ====== MESSAGES PIRATES ====== */
+#hack{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:200;
+opacity:0;
+pointer-events:none;
+color:red;
+font-size:2rem;
 text-align:center;
 padding:20px;
-max-width:900px;
 }
 
-h1{
-font-family:'Cinzel',serif;
+#hack.active{
+opacity:1;
+animation:glitchText 0.3s infinite;
+}
+
+@keyframes glitchText{
+0%{transform:translate(0);}
+25%{transform:translate(3px,-2px);}
+50%{transform:translate(-3px,2px);}
+75%{transform:translate(2px,1px);}
+100%{transform:translate(0);}
+}
+
+/* ====== GEAI MOQUEUR ====== */
+#mockingjay{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:150;
+pointer-events:none;
+opacity:0;
+}
+
+#mockingjay.active{
+opacity:1;
+animation:glitchBird 0.4s infinite;
+}
+
+#mockingjay img{
+width:220px;
+filter: drop-shadow(0 0 20px red);
+}
+
+@keyframes glitchBird{
+0%{transform:translate(0);}
+25%{transform:translate(5px,-3px) scale(1.05);}
+50%{transform:translate(-5px,2px);}
+75%{transform:translate(3px,1px);}
+100%{transform:translate(0);}
+}
+
+/* ====== FOOTER ====== */
+.footer{
+margin-top:40px;
+opacity:0.7;
+font-family:Roboto;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+  <img src="The_Capitol_Seal.png" alt="Capitole">
+</div>
+
+<h1>LE CAPITOLE</h1>
+
+<div class="subtitle">
+Portail officiel de Panem
+</div>
+
+<div id="countdown">
+<div class="time-box"><div class="time" id="days">00</div><div class="label">JOURS</div></div>
+<div class="time-box"><div class="time" id="hours">00</div><div class="label">HEURES</div></div>
+<div class="time-box"><div class="time" id="minutes">00</div><div class="label">MINUTES</div></div>
+<div class="time-box"><div class="time" id="seconds">00</div><div class="label">SECONDES</div></div>
+</div>
+
+<div class="footer">
+Puisse le sort vous être favorable
+</div>
+
+</div>
+
+<!-- GLITCH ECRAN -->
+<div id="glitchScreen"></div>
+
+<!-- HACK MESSAGE -->
+<div id="hack"></div>
+
+<!-- GEAI -->
+<div id="mockingjay">
+  <img id="birdImg" src="geai.png" onerror="this.style.display='none'; document.getElementById('mockingjay').innerHTML='◉ GEAI MOQUEUR ◉';">
+</div>
+
+<script>
+
+// ====== COUNTDOWN ======
+const campDate = new Date("July 18, 2026 00:00:00").getTime();
+
+setInterval(() => {
+const now = new Date().getTime();
+const distance = campDate - now;
+
+document.getElementById("days").textContent = Math.floor(distance/(1000*60*60*24));
+document.getElementById("hours").textContent = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+document.getElementById("minutes").textContent = Math.floor((distance%(1000*60*60))/(1000*60));
+document.getElementById("seconds").textContent = Math.floor((distance%(1000*60))/1000);
+
+},1000);
+
+// ====== MESSAGES ======
+const messages = [
+"LE GEAI MOQUEUR SURVIT",
+"SNOW VOIT TOUT",
+"LE CAPITOLE SE FISSURE",
+"UNE ÉTINCELLE SUFFIT",
+"ILS NE CONTRÔLENT PAS TOUT",
+"LE SILENCE EST UNE ARME",
+"LE SYSTÈME GLITCHE",
+"RIEN N'EST STABLE"
+];
+
+// ====== EFFECTS ======
+function hackEvent(){
+
+const hack = document.getElementById("hack");
+const glitch = document.getElementById("glitchScreen");
+const mockingjay = document.getElementById("mockingjay");
+
+const msg = messages[Math.floor(Math.random()*messages.length)];
+
+hack.innerText = msg;
+
+hack.classList.add("active");
+glitch.classList.add("active");
+mockingjay.classList.add("active");
+
+setTimeout(()=>{
+hack.classList.remove("active");
+glitch.classList.remove("active");
+mockingjay.classList.remove("active");
+},1000);
+
+}
+
+// toutes les 2 minutes
+setInterval(hackEvent,120000);
+setTimeout(hackEvent,30000);
+
+</script>
+
+</body>
+</html>font-family:'Cinzel',serif;
 font-size:4rem;
 letter-spacing:4px;
 margin-bottom:15px;
