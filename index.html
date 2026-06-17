@@ -147,6 +147,25 @@ align-items:center;
 z-index:150;
 pointer-events:none;
 opacity:0;
+transition:opacity 0.2s;
+}
+
+#mockingjay.active{
+opacity:1;
+}
+
+#mockingjay img{
+width:220px;
+filter: drop-shadow(0 0 25px red);
+animation:glitchBird 0.2s infinite;
+}
+
+@keyframes glitchBird{
+0%{transform:translate(0);}
+25%{transform:translate(4px,-2px);}
+50%{transform:translate(-4px,2px);}
+75%{transform:translate(3px,1px);}
+100%{transform:translate(0);}
 }
 
 #mockingjay.active{
@@ -212,7 +231,7 @@ Puisse le sort vous être favorable
 
 <!-- GEAI -->
 <div id="mockingjay">
-  <img id="birdImg" src="geai moqueur.png">
+  <img id="birdImg" src="geai.png" alt="Geai Moqueur">
 </div>
 
 <script>
@@ -262,7 +281,7 @@ setTimeout(()=>{
 hack.classList.remove("active");
 glitch.classList.remove("active");
 mockingjay.classList.remove("active");
-},1000);
+},1200);
 
 }
 
